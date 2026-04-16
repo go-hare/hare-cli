@@ -11,7 +11,8 @@
     },
     "files": [
         "bin",
-        "dist",
+        "dist/cli.js",
+        "dist/*.md",
         "README.md"
     ],
     "scripts": {

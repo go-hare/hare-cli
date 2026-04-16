@@ -13,3 +13,4 @@ scripts/media/
 bun.lock
 
 dist/
+hare-cli-1.0.0.tgz
