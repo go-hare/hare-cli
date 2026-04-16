@@ -1,0 +1,27 @@
+{
+    "name": "hare-cli",
+    "version": "1.0.0",
+    "type": "module",
+    "exports": {
+        ".": "./dist/cli.js",
+        "./package.json": "./package.json"
+    },
+    "bin": {
+        "hare-cli": "./bin/hare-cli.cjs"
+    },
+    "files": [
+        "bin",
+        "dist",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "node scripts/build-cli.mjs",
+        "build:release": "node scripts/build-release.mjs",
+        "dev": "bun --feature=BUDDY run ../hare-code/src/entrypoints/cli.tsx",
+        "version:sync": "node ../hare-code/scripts/sync-sibling-version.mjs --only hare-cli",
+        "version:check": "node ../hare-code/scripts/check-sibling-version.mjs --only hare-cli",
+        "release:pack": "bun run build && npm pack",
+        "smoke": "node bin/hare-cli.cjs --version",
+        "prepublishOnly": "bun run build"
+    }
+}

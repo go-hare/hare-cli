@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+import fs from "node:fs";
+import path from "node:path";
+import { spawnSync } from "node:child_process";
+
+const packageRoot = process.cwd();
+const distDir = path.resolve(packageRoot, "dist");
+
+fs.mkdirSync(distDir, { recursive: true });
+
+for (const entry of fs.readdirSync(distDir, { withFileTypes: true })) {
+  if (entry.isFile()) {
+    fs.rmSync(path.join(distDir, entry.name), { force: true });
+  }
+}
+
+const bunBinary = process.platform === "win32" ? "bun.exe" : "bun";
+const result = spawnSync(
+  bunBinary,
+  [
+    "build",
+    "../hare-code/src/entrypoints/cli.tsx",
+    "--outdir",
+    "dist",
+    "--target",
+    "bun",
+  ],
+  {
+    stdio: "inherit",
+    shell: process.platform === "win32" && /\.(cmd|bat)$/i.test(bunBinary),
+  },
+);
+
+if (result.status !== 0) {
+  process.exit(result.status ?? 1);
+}
